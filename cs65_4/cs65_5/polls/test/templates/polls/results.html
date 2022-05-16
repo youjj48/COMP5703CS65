@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}read local file and display it{% endblock %}
+
+{% block head %}
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'polls/css/status.css' %}">
+{% endblock %}
+
+
+{% block body %}
+  <div class="el-row">
+    <div id = 'tree' class="panel" >
+      <input type="file" name="file" id="filePicker" onchange="show()"  />
+        <br>
+
+
+        <textarea id="story" name="story" rows="15" cols="60">
+        </textarea>
+
+
+
+          <script>
+          function show()
+          {
+              var reader = new FileReader();
+              reader.onload = function()
+              {
+                  //alert(this.result)
+                  story.value=this.result
+              }
+              var f = document.getElementById("filePicker").files[0];
+              reader.readAsText(f);
+          }
+         </script>
+    </div>
+  </div>
+
+
+
+<script src="https://cdn.bootcss.com/vue/2.2.2/vue.min.js"></script>
+<script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>
+
+{% verbatim %}
+<div   id='app' class="number">
+  {{ status.success }}
+  <h1  class="number">{{ status.error }}</h1>
+  <h1  class="number">{{ status.project }}</h1>
+</div>
+
+{% endverbatim %}
+
+<script>
+
+var demo = new Vue ({
+  el: '#app',
+  data() {
+    return {
+      radio: "1",
+      status: {},
+      loading: true,
+      apiUrl: 'http://127.0.0.1:8000/index/status/'
+    };
+  },
+  props: {
+    title: {
+      type: String,
+    },
+  },
+  created() {
+    this.getHomeStatus();
+  },
+  methods: {
+    getHomeStatus() {
+      this.$http
+        .get(this.apiUrl)
+        .then(({ data: status }) => {
+          this.status = status;
+          console.log(this.status);
+
+        });
+    },
+  },
+});
+</script>
+
+
+{% endblock %}
+

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} - Cs65</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'polls/css/style.css' %}">
+    <script type="text/javascript" src="{% static 'polls/js/icons_menu.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'polls/css/icon_upload_icon_right.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'polls/css/dropdown.css' %}">
+    <script src="https://unpkg.com/vue@next"></script>
+
+    <style type="text/css">
+    .skip-node {
+        margin-top: 0;
+        top: 15px;
+    }
+
+    .collapse li{
+        list-style: circle; /* disc */
+        margin: 0 8px;
+    }
+    </style>
+
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+
+    <script type="text/javascript" src="{% static 'polls/js/common.js' %}"></script>
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+<nav>
+    <a class="title" target="_blank" href="http://127.0.0.1:8000/"> </a>
+
+    <div class="dropdown">
+
+        <a class="dropbtn" onclick="handleDropdown();">
+
+        <a class="dropbtn">
+
+            <span></span>
+            <svg class="icon anchor" aria-hidden="true">
+                <use xlink:href="#icon-down"></use>
+            </svg>
+        </a>
+        </a>
+
+    </div>
+</nav>
+
+<main>
+    <aside>
+      <div>
+        <h3>Crawling</h3>
+        <ul>
+            <li>
+                <a id="menu_servers" href="#" onclick="showLoader();">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-servers"></use>
+                    </svg>
+                    <span>Servers</span>
+                </a>
+            </li>
+        </ul>
+      </div>
+      <div>
+        <ul>
+            <li>
+                <a id="menu_jobs" href="#" onclick="showLoader();">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-jobs"></use>
+                    </svg>
+                    <span>Jobs</span>
+                </a>
+            </li>
+        </ul>
+      </div>
+      <div>
+        <ul>
+            <li>
+                <a id="menu_deploy" href="#" onclick="showLoader();">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-upload"></use>
+                    </svg>
+                    <span>Deploy Project</span>
+                </a>
+            </li>
+            <li>
+                <a id="menu_schedule" href="#" onclick="showLoader();">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-run"></use>
+                    </svg>
+                    <span>Run Spider</span>
+                </a>
+            </li>
+            <li>
+                <a id="menu_tasks" href="#" onclick="showLoader();">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-timer"></use>
+                    </svg>
+                    <span>Timer Tasks</span>
+                </a>
+            </li>
+        </ul>
+      </div>
+      <div>
+        <ul>
+            <li>
+                <a id="menu_projects" href="#" onclick="showLoader();">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-projects"></use>
+                    </svg>
+                    <span>Projects</span>
+                </a>
+            </li>
+            <li>
+                <a id="menu_logs" href="#" onclick="showLoader();">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-logs"></use>
+                    </svg>
+                    <span>Logs</span>
+                </a>
+            </li>
+            <li>
+                <a id="menu_items" href="base/" onclick="showLoader();">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-items"></use>
+                    </svg>
+                    <span>items</span>
+                </a>
+            </li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>OuterLink</h3>
+          <ul>
+            <li>
+                <a id="menu_neo4j" href="https://browser.neo4j.io/?connectURL=neo4j%2Bs%3A%2F%2Fneo4j%40227816f4.databases.neo4j.io%2F&cmd=guide&arg=intro&_ga=2.158862714.1788761101.1651643491-2015134580.1648538376" onclick="showLoader();">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-projects"></use>
+                    </svg>
+                    <span>neo4j</span>
+                </a>
+            </li>
+            <li>
+                <a id="menu_auradb_management" href="https://console.neo4j.io/#databases/227816f4/detail" onclick="showLoader();">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-logs"></use>
+                    </svg>
+                    <span>auradbM</span>
+                </a>
+            </li>
+            <li>
+                <a id="menu_auradb_explore" href="https://bloom.neo4j.io/index.html?connectURL=neo4j%2Bs%3A//227816f4.databases.neo4j.io&_ga=2.216877398.1788761101.1651643491-2015134580.1648538376" onclick="showLoader();">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-logs"></use>
+                    </svg>
+                    <span>auradbEX</span>
+                </a>
+            </li>
+        </ul>
+      </div>
+
+
+    </aside>
+
+    <div class="content-wrap">
+        <div id="content">
+            {% block loader %}
+            <div class="loader" style="display: none;" onclick="hideLoader();"></div>
+            {% endblock %}
+
+            {% block body %}
+
+            {% endblock %}
+        </div>
+    </div>
+
+</main>
+</body>
+
+</html>

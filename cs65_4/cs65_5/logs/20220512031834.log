@@ -1,0 +1,372 @@
+ERROR - 2022-05-12 03:19:22,863 - process: 19840 - utils.py - polls.utils - 76 - utils - [WinError 3] The system cannot find the path specified: 'C:\\Users\\46121\\PycharmProjects\\CS65_3\\cs65_4\\cs65_5\\projects\\undefined'
+Traceback (most recent call last):
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 74, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\generic\base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\views.py", line 414, in project_tree
+    tree = get_tree(join(path, project_name))
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 101, in get_tree
+    for file in os.listdir(path):
+FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\46121\\PycharmProjects\\CS65_3\\cs65_4\\cs65_5\\projects\\undefined'
+ERROR - 2022-05-12 03:19:27,353 - process: 19840 - utils.py - polls.utils - 76 - utils - [WinError 3] The system cannot find the path specified: 'C:\\Users\\46121\\PycharmProjects\\CS65_3\\cs65_4\\cs65_5\\projects\\undefined'
+Traceback (most recent call last):
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 74, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\generic\base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\views.py", line 414, in project_tree
+    tree = get_tree(join(path, project_name))
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 101, in get_tree
+    for file in os.listdir(path):
+FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\46121\\PycharmProjects\\CS65_3\\cs65_4\\cs65_5\\projects\\undefined'
+ERROR - 2022-05-12 03:19:29,851 - process: 19840 - utils.py - polls.utils - 76 - utils - [WinError 3] The system cannot find the path specified: 'C:\\Users\\46121\\PycharmProjects\\CS65_3\\cs65_4\\cs65_5\\projects\\undefined'
+Traceback (most recent call last):
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 74, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\generic\base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\views.py", line 414, in project_tree
+    tree = get_tree(join(path, project_name))
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 101, in get_tree
+    for file in os.listdir(path):
+FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\46121\\PycharmProjects\\CS65_3\\cs65_4\\cs65_5\\projects\\undefined'
+ERROR - 2022-05-12 03:19:30,914 - process: 19840 - utils.py - polls.utils - 76 - utils - [WinError 3] The system cannot find the path specified: 'C:\\Users\\46121\\PycharmProjects\\CS65_3\\cs65_4\\cs65_5\\projects\\undefined'
+Traceback (most recent call last):
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 74, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\generic\base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\views.py", line 414, in project_tree
+    tree = get_tree(join(path, project_name))
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 101, in get_tree
+    for file in os.listdir(path):
+FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\46121\\PycharmProjects\\CS65_3\\cs65_4\\cs65_5\\projects\\undefined'
+ERROR - 2022-05-12 03:19:32,616 - process: 19840 - utils.py - polls.utils - 76 - utils - [WinError 3] The system cannot find the path specified: 'C:\\Users\\46121\\PycharmProjects\\CS65_3\\cs65_4\\cs65_5\\projects\\undefined'
+Traceback (most recent call last):
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 74, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\generic\base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\views.py", line 414, in project_tree
+    tree = get_tree(join(path, project_name))
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 101, in get_tree
+    for file in os.listdir(path):
+FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\46121\\PycharmProjects\\CS65_3\\cs65_4\\cs65_5\\projects\\undefined'
+ERROR - 2022-05-12 03:19:34,776 - process: 19840 - utils.py - polls.utils - 76 - utils - [WinError 3] The system cannot find the path specified: 'C:\\Users\\46121\\PycharmProjects\\CS65_3\\cs65_4\\cs65_5\\projects\\undefined'
+Traceback (most recent call last):
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 74, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\generic\base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\views.py", line 414, in project_tree
+    tree = get_tree(join(path, project_name))
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 101, in get_tree
+    for file in os.listdir(path):
+FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\46121\\PycharmProjects\\CS65_3\\cs65_4\\cs65_5\\projects\\undefined'
+ERROR - 2022-05-12 03:19:35,436 - process: 19840 - utils.py - polls.utils - 76 - utils - [WinError 3] The system cannot find the path specified: 'C:\\Users\\46121\\PycharmProjects\\CS65_3\\cs65_4\\cs65_5\\projects\\undefined'
+Traceback (most recent call last):
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 74, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\generic\base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\views.py", line 414, in project_tree
+    tree = get_tree(join(path, project_name))
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 101, in get_tree
+    for file in os.listdir(path):
+FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\46121\\PycharmProjects\\CS65_3\\cs65_4\\cs65_5\\projects\\undefined'
+ERROR - 2022-05-12 03:19:36,626 - process: 19840 - utils.py - polls.utils - 76 - utils - [WinError 3] The system cannot find the path specified: 'C:\\Users\\46121\\PycharmProjects\\CS65_3\\cs65_4\\cs65_5\\projects\\undefined'
+Traceback (most recent call last):
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 74, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\generic\base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\views.py", line 414, in project_tree
+    tree = get_tree(join(path, project_name))
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 101, in get_tree
+    for file in os.listdir(path):
+FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\46121\\PycharmProjects\\CS65_3\\cs65_4\\cs65_5\\projects\\undefined'
+ERROR - 2022-05-12 03:43:56,511 - process: 19840 - utils.py - polls.utils - 76 - utils - [WinError 3] The system cannot find the path specified: 'C:\\Users\\46121\\PycharmProjects\\CS65_3\\cs65_4\\cs65_5\\projects\\undefined'
+Traceback (most recent call last):
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 74, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\generic\base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\views.py", line 414, in project_tree
+    tree = get_tree(join(path, project_name))
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 101, in get_tree
+    for file in os.listdir(path):
+FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\46121\\PycharmProjects\\CS65_3\\cs65_4\\cs65_5\\projects\\undefined'
+ERROR - 2022-05-12 03:44:01,203 - process: 19840 - utils.py - polls.utils - 76 - utils - [WinError 3] The system cannot find the path specified: 'C:\\Users\\46121\\PycharmProjects\\CS65_3\\cs65_4\\cs65_5\\projects\\undefined'
+Traceback (most recent call last):
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 74, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\generic\base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\views.py", line 414, in project_tree
+    tree = get_tree(join(path, project_name))
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 101, in get_tree
+    for file in os.listdir(path):
+FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\46121\\PycharmProjects\\CS65_3\\cs65_4\\cs65_5\\projects\\undefined'
+ERROR - 2022-05-12 03:45:05,022 - process: 19840 - utils.py - polls.utils - 76 - utils - Request body exceeded settings.DATA_UPLOAD_MAX_MEMORY_SIZE.
+Traceback (most recent call last):
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 74, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\generic\base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\views.py", line 749, in project_file_update
+    data = json.loads(request.body)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\request.py", line 416, in __getattr__
+    return getattr(self._request, attr)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\http\request.py", line 299, in body
+    raise RequestDataTooBig('Request body exceeded settings.DATA_UPLOAD_MAX_MEMORY_SIZE.')
+django.core.exceptions.RequestDataTooBig: Request body exceeded settings.DATA_UPLOAD_MAX_MEMORY_SIZE.
+ERROR - 2022-05-12 03:45:23,664 - process: 19840 - utils.py - polls.utils - 76 - utils - Request body exceeded settings.DATA_UPLOAD_MAX_MEMORY_SIZE.
+Traceback (most recent call last):
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 74, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\generic\base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\views.py", line 749, in project_file_update
+    data = json.loads(request.body)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\request.py", line 416, in __getattr__
+    return getattr(self._request, attr)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\http\request.py", line 299, in body
+    raise RequestDataTooBig('Request body exceeded settings.DATA_UPLOAD_MAX_MEMORY_SIZE.')
+django.core.exceptions.RequestDataTooBig: Request body exceeded settings.DATA_UPLOAD_MAX_MEMORY_SIZE.
+ERROR - 2022-05-12 03:46:48,214 - process: 19840 - utils.py - polls.utils - 76 - utils - [WinError 3] The system cannot find the path specified: 'C:\\Users\\46121\\PycharmProjects\\CS65_3\\cs65_4\\cs65_5\\projects\\undefined'
+Traceback (most recent call last):
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 74, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\generic\base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\views.py", line 414, in project_tree
+    tree = get_tree(join(path, project_name))
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 101, in get_tree
+    for file in os.listdir(path):
+FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\46121\\PycharmProjects\\CS65_3\\cs65_4\\cs65_5\\projects\\undefined'
+ERROR - 2022-05-12 03:46:49,840 - process: 19840 - utils.py - polls.utils - 76 - utils - [WinError 3] The system cannot find the path specified: 'C:\\Users\\46121\\PycharmProjects\\CS65_3\\cs65_4\\cs65_5\\projects\\undefined'
+Traceback (most recent call last):
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 74, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\generic\base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\views.py", line 414, in project_tree
+    tree = get_tree(join(path, project_name))
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 101, in get_tree
+    for file in os.listdir(path):
+FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\46121\\PycharmProjects\\CS65_3\\cs65_4\\cs65_5\\projects\\undefined'
+ERROR - 2022-05-12 03:51:41,648 - process: 19840 - utils.py - polls.utils - 76 - utils - [WinError 3] The system cannot find the path specified: 'C:\\Users\\46121\\PycharmProjects\\CS65_3\\cs65_4\\cs65_5\\projects\\undefined'
+Traceback (most recent call last):
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 74, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\generic\base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\views.py", line 414, in project_tree
+    tree = get_tree(join(path, project_name))
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 101, in get_tree
+    for file in os.listdir(path):
+FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\46121\\PycharmProjects\\CS65_3\\cs65_4\\cs65_5\\projects\\undefined'
+ERROR - 2022-05-12 03:51:43,565 - process: 19840 - utils.py - polls.utils - 76 - utils - [WinError 3] The system cannot find the path specified: 'C:\\Users\\46121\\PycharmProjects\\CS65_3\\cs65_4\\cs65_5\\projects\\undefined'
+Traceback (most recent call last):
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 74, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\generic\base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\views.py", line 414, in project_tree
+    tree = get_tree(join(path, project_name))
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 101, in get_tree
+    for file in os.listdir(path):
+FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\46121\\PycharmProjects\\CS65_3\\cs65_4\\cs65_5\\projects\\undefined'

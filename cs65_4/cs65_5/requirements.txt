@@ -1,0 +1,8 @@
+django
+django-cors-headers
+django-apscheduler
+djangorestframework
+pymongo
+bs4
+furl
+requests

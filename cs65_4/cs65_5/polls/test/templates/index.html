@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block title %}index_statue{% endblock %}
+
+{% block head %}
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'polls/css/status.css' %}">
+
+{% endblock %}
+
+{% block body %}
+{% verbatim %}
+<div class="pageContent">
+              <div class="el-row">
+                <div id = 'app' class="el-col el-col-24">
+                    <div  class="el-row" style="margin-left: -10px; margin-right: -10px;">
+                      <div  class="el-col el-col-8" style="padding-left: 10px; padding-right: 10px;">
+                        <div  class="panel">
+                          <div  class="panel-title">
+                            <span>client</span>
+                            <div class="fr">
+                              <button  type="button" class="el-button el-button--primary el-button--mini">
+                                <!---->
+                                <!---->
+                                <span>normal</span></button>
+                            </div>
+                          </div>
+
+                          <div  class="panel-body">
+
+                            <h1   class="number">{{ status.success }}</h1>
+
+                            <small >Normal Clients</small>
+                            <div class="el-loading-mask" style="display: none;">
+
+                              <div class="el-loading-spinner">
+                                <svg viewBox="25 25 50 50" class="circular">
+                                  <circle cx="50" cy="50" r="20" fill="none" class="path"></circle>
+                                </svg>
+                                <!----></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div  class="el-col el-col-8" style="padding-left: 10px; padding-right: 10px;">
+                        <div  class="panel">
+                          <div  class="panel-title">
+                            <span>client</span>
+                            <div class="fr">
+                              <button  type="button" class="el-button el-button--danger el-button--mini">
+                                <!---->
+                                <!---->
+                                <span>error</span></button>
+                            </div>
+                          </div>
+                          <div  class="panel-body">
+
+                            <h1  class="number">{{ status.error }}</h1>
+
+                            <small>Error Clients</small>
+
+                            <div class="el-loading-mask" style="display: none;">
+                              <div class="el-loading-spinner">
+                                <svg viewBox="25 25 50 50" class="circular">
+                                  <circle cx="50" cy="50" r="20" fill="none" class="path"></circle>
+                                </svg>
+                                <!----></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div  class="el-col el-col-8" style="padding-left: 10px; padding-right: 10px;">
+                        <div  id="tree" class="panel">
+                          <div  class="panel-title">
+                            <span>project</span>
+                            <div class="fr">
+                              <button  type="button" class="el-button el-button--success el-button--mini">
+                                <!---->
+                                <!---->
+                                <span>normal</span></button>
+                            </div>
+                          </div>
+                          <div  class="panel-body">
+
+                            <h1  class="number">{{ status.project }}</h1>
+
+                            <small >Projects</small>
+                            <div class="el-loading-mask" style="display: none;">
+                              <div class="el-loading-spinner">
+                                <svg viewBox="25 25 50 50" class="circular">
+                                  <circle cx="50" cy="50" r="20" fill="none" class="path"></circle>
+                                </svg>
+                                <!----></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+{% endverbatim %}
+
+<script src="https://cdn.bootcss.com/vue/2.2.2/vue.min.js"></script>
+<script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>
+
+<script>
+
+var demo = new Vue({
+            el: '#app',
+            data: {
+               status: {},
+               apiUrl: 'http://127.0.0.1:8000/index/status/'
+            },
+            mounted: function() {
+               this.getCustomers()
+            },
+            methods: {
+               getCustomers: function() {
+                  var _this = this;
+                  this.$http.get(this.apiUrl)
+                     .then((response) => {
+                        _this.status =response.data;
+                        console.log(_this.status)
+                     })
+               }
+            },
+         })
+</script>
+
+
+{% endblock %}

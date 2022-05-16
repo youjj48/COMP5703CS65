@@ -1,0 +1,14 @@
+setup.py
+MayoSpider/__init__.py
+MayoSpider/items.py
+MayoSpider/middlewares.py
+MayoSpider/pipelines.py
+MayoSpider/settings.py
+MayoSpider.egg-info/PKG-INFO
+MayoSpider.egg-info/SOURCES.txt
+MayoSpider.egg-info/dependency_links.txt
+MayoSpider.egg-info/entry_points.txt
+MayoSpider.egg-info/top_level.txt
+MayoSpider/spiders/__init__.py
+MayoSpider/spiders/mayo.py
+MayoSpider/spiders/medline.py
