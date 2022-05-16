@@ -6,3 +6,5 @@ pymongo
 bs4
 furl
 requests
+jinja2
+scrapyd_api
