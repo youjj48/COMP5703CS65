@@ -1,5 +1,7 @@
 from django.urls import path, re_path
 from rest_framework.authtoken import views as auth
+from django.views.static import serve
+from django.conf import settings
 from . import views
 
 app_name = 'polls'
@@ -50,5 +52,8 @@ urlpatterns = [
 
 urlpatterns += [
     path(r'add_book$', views.add_book),
-    path(r'show_books$', views.show_books)
+    path(r'show_books$', views.show_books),
+    re_path(r'^static/(?P<path>.*)$',
+    serve,
+    {'document_root': settings.STATIC_ROOT})
 ]
