@@ -8,3 +8,4 @@ furl
 requests
 jinja2
 scrapyd_api
+scrapyd
