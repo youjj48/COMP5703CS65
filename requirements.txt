@@ -9,7 +9,3 @@ requests
 jinja2
 python-scrapyd-api
 scrapyd
-nltk
-transformers
-torch
-pytorch-crf
