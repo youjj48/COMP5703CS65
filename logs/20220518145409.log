@@ -1,0 +1,145 @@
+ERROR - 2022-05-18 14:55:49,839 - process: 3132 - utils.py - polls.utils - 76 - utils - -1
+Traceback (most recent call last):
+  File "E:\5703\git_repository\polls\utils.py", line 74, in wrapper
+    result = func(*args, **kwargs)
+  File "E:\python\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\python\lib\site-packages\django\views\generic\base.py", line 84, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\python\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\python\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\python\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\python\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "E:\python\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "E:\5703\git_repository\polls\views.py", line 444, in project_version
+    version = versions[-1]
+KeyError: -1
+INFO - 2022-05-18 14:56:01,665 - process: 3132 - build.py - polls.build - 24 - build - successfully build project health to egg file E:\5703\git_repository\projects\health\project-1.0-py3.10.egg
+ERROR - 2022-05-18 14:56:04,845 - process: 3132 - utils.py - polls.utils - 76 - utils - E:\python\lib\site-packages\scrapy\utils\project.py:81: ScrapyDeprecationWarning: Use of environment variables prefixed with SCRAPY_ to override settings is deprecated. The following environment variables are currently defined: EGG_VERSION
+  warnings.warn(
+Traceback (most recent call last):
+  File "E:\python\lib\runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "E:\python\lib\runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "E:\python\lib\site-packages\scrapyd\runner.py", line 46, in <module>
+    main()
+  File "E:\python\lib\site-packages\scrapyd\runner.py", line 43, in main
+    execute()
+  File "E:\python\lib\site-packages\scrapy\cmdline.py", line 144, in execute
+    cmd.crawler_process = CrawlerProcess(settings)
+  File "E:\python\lib\site-packages\scrapy\crawler.py", line 290, in __init__
+    super().__init__(settings)
+  File "E:\python\lib\site-packages\scrapy\crawler.py", line 167, in __init__
+    self.spider_loader = self._get_spider_loader(settings)
+  File "E:\python\lib\site-packages\scrapy\crawler.py", line 161, in _get_spider_loader
+    return loader_cls.from_settings(settings.frozencopy())
+  File "E:\python\lib\site-packages\scrapy\spiderloader.py", line 67, in from_settings
+    return cls(settings)
+  File "E:\python\lib\site-packages\scrapy\spiderloader.py", line 24, in __init__
+    self._load_all_spiders()
+  File "E:\python\lib\site-packages\scrapy\spiderloader.py", line 51, in _load_all_spiders
+    for module in walk_modules(name):
+  File "E:\python\lib\site-packages\scrapy\utils\misc.py", line 80, in walk_modules
+    mod = import_module(path)
+  File "E:\python\lib\importlib\__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "c:\users\shinelon\appdata\local\temp\health-1652856963-35d_y2x_.egg\health\spiders\__init__.py", line 2, in <module>
+ModuleNotFoundError: No module named 'scrapy_redis'
+Traceback (most recent call last):
+  File "E:\5703\git_repository\polls\utils.py", line 74, in wrapper
+    result = func(*args, **kwargs)
+  File "E:\python\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\python\lib\site-packages\django\views\generic\base.py", line 84, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\python\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\python\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\python\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\python\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "E:\python\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "E:\5703\git_repository\polls\views.py", line 479, in project_deploy
+    scrapyd.add_version(project_name, int(time.time()), egg_file.read())
+  File "E:\python\lib\site-packages\scrapyd_api\scrapyd_api.py", line 44, in add_version
+    return self.post(**options)
+  File "E:\python\lib\site-packages\session_request\session_request.py", line 47, in post
+    return self.request(method='POST', **options)
+  File "E:\python\lib\site-packages\session_request\session_request.py", line 40, in request
+    return self.after_request(response)
+  File "E:\python\lib\site-packages\scrapyd_api\scrapyd_api.py", line 23, in after_request
+    raise ScrapydException(res['message'])
+scrapyd_api.exceptions.ScrapydException: E:\python\lib\site-packages\scrapy\utils\project.py:81: ScrapyDeprecationWarning: Use of environment variables prefixed with SCRAPY_ to override settings is deprecated. The following environment variables are currently defined: EGG_VERSION
+  warnings.warn(
+Traceback (most recent call last):
+  File "E:\python\lib\runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "E:\python\lib\runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "E:\python\lib\site-packages\scrapyd\runner.py", line 46, in <module>
+    main()
+  File "E:\python\lib\site-packages\scrapyd\runner.py", line 43, in main
+    execute()
+  File "E:\python\lib\site-packages\scrapy\cmdline.py", line 144, in execute
+    cmd.crawler_process = CrawlerProcess(settings)
+  File "E:\python\lib\site-packages\scrapy\crawler.py", line 290, in __init__
+    super().__init__(settings)
+  File "E:\python\lib\site-packages\scrapy\crawler.py", line 167, in __init__
+    self.spider_loader = self._get_spider_loader(settings)
+  File "E:\python\lib\site-packages\scrapy\crawler.py", line 161, in _get_spider_loader
+    return loader_cls.from_settings(settings.frozencopy())
+  File "E:\python\lib\site-packages\scrapy\spiderloader.py", line 67, in from_settings
+    return cls(settings)
+  File "E:\python\lib\site-packages\scrapy\spiderloader.py", line 24, in __init__
+    self._load_all_spiders()
+  File "E:\python\lib\site-packages\scrapy\spiderloader.py", line 51, in _load_all_spiders
+    for module in walk_modules(name):
+  File "E:\python\lib\site-packages\scrapy\utils\misc.py", line 80, in walk_modules
+    mod = import_module(path)
+  File "E:\python\lib\importlib\__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "c:\users\shinelon\appdata\local\temp\health-1652856963-35d_y2x_.egg\health\spiders\__init__.py", line 2, in <module>
+ModuleNotFoundError: No module named 'scrapy_redis'
+
+ERROR - 2022-05-18 14:58:45,728 - process: 3132 - utils.py - polls.utils - 76 - utils - -1
+Traceback (most recent call last):
+  File "E:\5703\git_repository\polls\utils.py", line 74, in wrapper
+    result = func(*args, **kwargs)
+  File "E:\python\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "E:\python\lib\site-packages\django\views\generic\base.py", line 84, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\python\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "E:\python\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\python\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\python\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "E:\python\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "E:\5703\git_repository\polls\views.py", line 444, in project_version
+    version = versions[-1]
+KeyError: -1

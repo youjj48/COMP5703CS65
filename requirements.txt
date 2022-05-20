@@ -7,5 +7,9 @@ bs4
 furl
 requests
 jinja2
-scrapyd_api
+python-scrapyd-api
 scrapyd
+nltk
+transformers
+torch
+pytorch-crf
