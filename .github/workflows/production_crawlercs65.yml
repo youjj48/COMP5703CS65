@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'crawlercs65'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_98DA0105BEC64007A04F02EFBD5E5B1F }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1576AD83DF4349D28A3C936BF0AA2A89 }}
