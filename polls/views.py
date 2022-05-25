@@ -24,18 +24,21 @@ from django_apscheduler.models import DjangoJob, DjangoJobExecution
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from subprocess import Popen, PIPE
+from .neo4jQuery import App,uri,user,password
 
 sys.path.append('../..')
 
-from .__init__ import get_logger
-from cs65_4_1.settings import TIME_ZONE
+from cs65_4 import get_logger
+from cs65_4.cs65_5.cs65_4_1.settings import TIME_ZONE
 from .build import build_project, find_egg
-from .utils import log_exception, scrapyd_url, IGNORES, get_scrapyd, bytes2str, get_tree, log_url, is_in_curdir, clients_of_task, get_job_id, process_html
+from .utils import log_exception, scrapyd_url, IGNORES, get_scrapyd, bytes2str, get_tree, log_url, is_in_curdir, clients_of_task, get_job_id, process_html, post_process
 from .models import Client, Deploy, Book, Project, Monitor, Task
-from settings import PROJECTS_FOLDER
+from settings  import PROJECTS_FOLDER,LOG_DIR,MODEL_DIR
 from .response import JsonResponse
-
+from nltk.tokenize import sent_tokenize
+from .model_output import new_word_tokenize, predict_in_doc, model
 logger = get_logger(__name__)
+
 
 @log_exception()
 @api_view(['GET'])
@@ -259,7 +262,7 @@ def spider_start(request, client_id, project_name, spider_name):
 @permission_classes([IsAuthenticated])
 def job_log(request, client_id, project_name, spider_name, job_id):
     """
-    get log of jog
+    get log of job
     :param request: request object
     :param client_id: client id
     :param project_name: project name
@@ -505,7 +508,7 @@ def project_create(request):
 
 @log_exception()
 @api_view(['POST'])
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def project_upload(request):
     """
     upload project
@@ -955,6 +958,64 @@ def task_status(request, task_id):
             })
         return JsonResponse({'data': result})
 
+@log_exception()
+@api_view(['GET'])
+#@permission_classes([IsAuthenticated])
+def logs_tree(request):
+    """
+    get file tree of project
+    :param request: request object
+    :param project_name: project name
+    :return: json of tree
+    """
+    if request.method == 'GET':
+        path = os.path.abspath(join(os.getcwd(), LOG_DIR))
+        # get tree data
+        tree = get_tree(join(path))
+        return JsonResponse(tree)
+
+@log_exception()
+@api_view(['GET'])
+#@permission_classes([IsAuthenticated])
+def nlp_tree(request):
+    """
+    get file tree of project
+    :param request: request object
+    :param project_name: project name
+    :return: json of tree
+    """
+    if request.method == 'GET':
+        path = os.path.abspath(join(os.getcwd(), MODEL_DIR))
+        # get tree data
+        tree = get_tree(join(path))
+        return JsonResponse(tree)
+
+@log_exception()
+@api_view(['POST'])
+#@permission_classes([IsAuthenticated])
+def nlp_run(request):
+    """
+    get param of model
+    :param request: request object
+    :param project_name: project name
+    :return: json of tree
+    """
+    if request.method == 'POST':
+        form = json.loads(request.body)
+        title = form['title']
+        input_text = form['text']
+        title_type = form['type']
+
+        # split txt into sentences
+        sentence_lst = sent_tokenize(input_text)
+        # remove last element
+        sentence_lst = sentence_lst[:-1]
+
+        sentences = new_word_tokenize(sentence_lst)
+        test = predict_in_doc(model, sentences)
+        data = post_process(title, title_type, test)
+
+        return JsonResponse(data)
 
 @log_exception()
 @api_view(['GET'])
@@ -974,3 +1035,88 @@ def render_html(request):
         response.encoding = response.apparent_encoding
         html = process_html(response.text)
         return HttpResponse(html)
+
+@log_exception()
+@api_view(['POST'])
+#@permission_classes([IsAuthenticated])
+def neo4j_create(request):
+    """
+    get param of model
+    :param request: request object
+    :param project_name: project name
+    :return: json of tree
+    """
+    if request.method == 'POST':
+        form = json.loads(request.body)
+
+        disease_name = form['disease']
+        node_label = form['node_label']
+        node_name = form['node_name']
+        app = App(uri, user, password)
+
+        output = app.create_relationship(disease_name, node_label, node_name)
+
+        return JsonResponse(output)
+
+@log_exception()
+@api_view(['POST'])
+#@permission_classes([IsAuthenticated])
+def neo4j_modify(request):
+    """
+    get param of model
+    :param request: request object
+    :param project_name: project name
+    :return: json of tree
+    """
+    if request.method == 'POST':
+        form = json.loads(request.body)
+
+        node_label = form['node_label']
+        node_name = form['node_name']
+        after_name = form['after_name']
+        app = App(uri, user, password)
+
+        output = app.modify_node(node_label, node_name, after_name)
+
+        return JsonResponse(output)
+
+@log_exception()
+@api_view(['POST'])
+#@permission_classes([IsAuthenticated])
+def neo4j_delete(request):
+    """
+    get param of model
+    :param request: request object
+    :param project_name: project name
+    :return: json of tree
+    """
+    if request.method == 'POST':
+        form = json.loads(request.body)
+
+        node_label = form['node_label']
+        node_name = form['node_name']
+        app = App(uri, user, password)
+
+        output = app.delete_node(node_label, node_name)
+
+        return JsonResponse(output)
+
+@log_exception()
+@api_view(['POST'])
+#@permission_classes([IsAuthenticated])
+def neo4j_find(request):
+    """
+    get param of model
+    :param request: request object
+    :param project_name: project name
+    :return: json of tree
+    """
+    if request.method == 'POST':
+        form = json.loads(request.body)
+
+        disease_name = form['disease']
+        app = App(uri, user, password)
+
+        output = app.find_node(disease_name)
+
+        return JsonResponse(output)

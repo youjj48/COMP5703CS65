@@ -1,0 +1,92 @@
+ERROR - 2022-05-25 13:44:21,106 - process: 26620 - utils.py - polls.utils - 84 - utils - local variable 'result_find' referenced before assignment
+Traceback (most recent call last):
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 82, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\generic\base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\views.py", line 1120, in neo4j_find
+    output = app.find_node(disease_name)
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\neo4jQuery.py", line 59, in find_node
+    return result_find
+UnboundLocalError: local variable 'result_find' referenced before assignment
+ERROR - 2022-05-25 13:44:32,897 - process: 26620 - utils.py - polls.utils - 84 - utils - local variable 'result_find' referenced before assignment
+Traceback (most recent call last):
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 82, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\generic\base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\views.py", line 1120, in neo4j_find
+    output = app.find_node(disease_name)
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\neo4jQuery.py", line 59, in find_node
+    return result_find
+UnboundLocalError: local variable 'result_find' referenced before assignment
+ERROR - 2022-05-25 13:52:14,088 - process: 26620 - utils.py - polls.utils - 84 - utils - local variable 'result_find' referenced before assignment
+Traceback (most recent call last):
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 82, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\generic\base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\views.py", line 1120, in neo4j_find
+    output = app.find_node(disease_name)
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\neo4jQuery.py", line 59, in find_node
+    return result_find
+UnboundLocalError: local variable 'result_find' referenced before assignment
+ERROR - 2022-05-25 13:59:41,597 - process: 26620 - utils.py - polls.utils - 84 - utils - local variable 'result_find' referenced before assignment
+Traceback (most recent call last):
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 82, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\generic\base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\views.py", line 1120, in neo4j_find
+    output = app.find_node(disease_name)
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\neo4jQuery.py", line 59, in find_node
+    return result_find
+UnboundLocalError: local variable 'result_find' referenced before assignment

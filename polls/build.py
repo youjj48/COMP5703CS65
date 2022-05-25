@@ -5,7 +5,7 @@ import tempfile
 import shutil
 import errno
 
-from . import get_logger
+from cs65_4 import get_logger
 from settings import PROJECTS_FOLDER
 from .config import config
 from os.path import join

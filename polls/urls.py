@@ -1,7 +1,5 @@
 from django.urls import path, re_path
 from rest_framework.authtoken import views as auth
-from django.views.static import serve
-from django.conf import settings
 from . import views
 
 app_name = 'polls'
@@ -46,8 +44,14 @@ urlpatterns = [
     re_path(r'^api/task/(\d+)/info', views.task_info, name='task_info'),
     re_path(r'^api/task/(\d+)/remove', views.task_remove, name='task_remove'),
     re_path(r'^api/task/(\d+)/status', views.task_status, name='task_status'),
+    re_path(r'^api/logs_tree', views.logs_tree, name='logs_tree'),
+    re_path(r'^api/nlp_tree', views.nlp_tree, name='nlp_tree'),
+    re_path(r'^api/nlp/run', views.nlp_run, name='nlp_run'),
+    re_path(r'^api/neo4j/create', views.neo4j_create, name='neo4j_create'),
+    re_path(r'^api/neo4j/modify', views.neo4j_modify, name='neo4j_modify'),
+    re_path(r'^api/neo4j/delete', views.neo4j_delete, name='neo4j_delete'),
+    re_path(r'^api/neo4j/find', views.neo4j_find, name='neo4j_find'),
     re_path(r'^api/render', views.render_html, name='render_html'),
-
 ]
 
 urlpatterns += [

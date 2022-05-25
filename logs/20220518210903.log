@@ -1,0 +1,27 @@
+ERROR - 2022-05-18 21:10:35,449 - process: 22568 - utils.py - polls.utils - 76 - utils - Client() got an unexpected keyword argument 'text'
+Traceback (most recent call last):
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\utils.py", line 74, in wrapper
+    result = func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\views\generic\base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\cs65_4\cs65_5\polls\views.py", line 198, in client_create
+    client = Client.objects.create(**data)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\db\models\query.py", line 455, in create
+    obj = self.model(**kwargs)
+  File "C:\Users\46121\PycharmProjects\CS65_3\vr_env\lib\site-packages\django\db\models\base.py", line 507, in __init__
+    raise TypeError("%s() got an unexpected keyword argument '%s'" % (cls.__name__, kwarg))
+TypeError: Client() got an unexpected keyword argument 'text'
