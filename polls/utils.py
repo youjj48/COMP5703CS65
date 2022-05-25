@@ -19,7 +19,7 @@ from os.path import join, exists, dirname
 
 sys.path.append('../..')
 
-from cs65_4 import get_logger
+from . import get_logger
 
 IGNORES = ['.git/', '*.pyc', '.DS_Store', '.idea/',
            '*.egg', '*.egg-info/', '*.egg-info', 'build/']

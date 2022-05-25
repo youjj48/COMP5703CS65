@@ -28,8 +28,8 @@ from .neo4jQuery import App,uri,user,password
 
 sys.path.append('../..')
 
-from cs65_4 import get_logger
-from cs65_4.cs65_5.cs65_4_1.settings import TIME_ZONE
+from .__init__ import get_logger
+from cs65_4_1.settings import TIME_ZONE
 from .build import build_project, find_egg
 from .utils import log_exception, scrapyd_url, IGNORES, get_scrapyd, bytes2str, get_tree, log_url, is_in_curdir, clients_of_task, get_job_id, process_html, post_process
 from .models import Client, Deploy, Book, Project, Monitor, Task

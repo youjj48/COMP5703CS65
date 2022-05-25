@@ -1,5 +1,7 @@
 from django.urls import path, re_path
 from rest_framework.authtoken import views as auth
+from django.views.static import serve
+from django.conf import settings
 from . import views
 
 app_name = 'polls'
