@@ -15,6 +15,7 @@ LOG_FORMAT = getenv('LOG_FORMAT',
 LOG_PATH = join(getcwd(), LOG_DIR, time.strftime("%Y%m%d%H%M%S", time.localtime()) + '.log')
 
 MODEL_DIR = getenv('MODEL_DIR', 'models')
+RESULT_DIR = getenv('RESULT_DIR', 'D:\crawler_results')
 # projects
 PROJECTS_FOLDER = getenv('PROJECTS_FOLDER', 'projects')
 LOGS_FOLDER = LOG_DIR

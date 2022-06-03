@@ -64,6 +64,7 @@ ROBOTSTXT_OBEY = True
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {
 #    'MayoSpider.pipelines.MayospiderPipeline': 300,
+#    'MayoSpider.pipelines.MedlinespiderPipeline': 301,
 #}
 
 # Enable and configure the AutoThrottle extension (disabled by default)

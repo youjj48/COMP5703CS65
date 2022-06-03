@@ -98,10 +98,3 @@ class Task(Model):
         """
         return '_'.join([str(self.name), str(self.project), str(self.spider)])
 
-# Create your models here.
-class Book(Model):
-    book_name = CharField(max_length=64)
-    add_time = DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.book_name

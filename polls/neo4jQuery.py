@@ -51,12 +51,26 @@ class App:
 
     def find_node(self, disease_name):
         with self.driver.session() as session:
+            disease_name_query = str(disease_name)
+            query = (
+                "MATCH relation=(d:Disease)--(node)"
+                f"WHERE d.name = \"{disease_name_query}\" "
+                "RETURN relation"
+            )
             result = session.read_transaction(self._find_and_return_node, disease_name)
+            result_find_list = []
+            result_find={}
+            output = {}
             for node in result:
-                print("Relation: {l}, Node content: {n}".format(l=node[0], n=node[1]))
-                result_find = ("Relation: {l}, Node content: {n}".format(l=node[0], n=node[1]))
+                result_find["Relation"] = node[0]
+                result_find["Node content"] = str(node[1])
+                tem_result_find = result_find.copy()
+                result_find_list.append(tem_result_find)
 
-            return result_find
+            output['find'] = result_find_list
+            output['query'] = query
+
+            return output
 
     @staticmethod
     def _find_and_return_node(tx, disease_name):
@@ -111,3 +125,27 @@ class App:
         )
         result = tx.run(query, node_label=node_label, node_name=node_name, after_name=after_name)
         return result
+
+    def get_nodes(self):
+        with self.driver.session() as session:
+            result =session.read_transaction(self._get_nodes)
+            list = {}
+            all_list = []
+            for node in result:
+                list["Label name"] = format(node[0])
+                list["Counts"] = str(format(node[1]))
+                l_list = list.copy()
+                all_list.append(l_list)
+            return all_list
+
+    @staticmethod
+    def _get_nodes(tx):
+        query =("MATCH (n) RETURN distinct labels(n), count(*)")
+        result = tx.run(query)
+        return_list = []
+        for row in result:
+            return_dict = row.data()
+            node_label = return_dict['labels(n)'][0]
+            node_value = (return_dict['count(*)'])
+            return_list.append([node_label, node_value])
+        return return_list

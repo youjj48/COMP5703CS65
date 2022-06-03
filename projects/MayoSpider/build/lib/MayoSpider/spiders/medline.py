@@ -7,22 +7,46 @@ from bs4 import BeautifulSoup
 
 class MedlineSpider(scrapy.Spider):
     name = 'medline'
+    custom_settings = {
+        'ITEM_PIPELINES': {
+            'MayoSpider.pipelines.MedlinespiderPipeline': 301
+        }
+    }
     allowed_domain=['medlineplus.gov/']
-    start_urls = ['https://medlineplus.gov/all_healthtopics.html']
+    start_urls = ['https://medlineplus.gov/healthtopics.html']
     #start_urls = ['https://medlineplus.gov/cpr.html']
-    count = 0
-    
-    def writeCount(self):
-        with open('./medline_config.txt','w',encoding='utf8')as fp:
-            fp.write(str(self.count))
+    incremental = False
             
+    def readUrls(self):
+        if self.incremental and os.path.exists('./medline.json'):
+            with open('./medline.json','r',encoding='utf8')as fp: 
+                    data = json.load(fp)
+                    self.recorded_urls = [ele['url'] for ele in data]
+                    
     def parse(self,response):
-        href_list_1 = response.xpath('//*[@id="topic_all"]/article/section/div/div[2]/ul/li/a/@href').extract()
+        try:
+            self.readUrls()
+        except:
+            pass
+            
+        href_list_1 = response.xpath('//*[@id="page_health_topic"]/article/div[2]/div[2]/div/section[1]/div/div[2]/ul/li/a/@href').extract()
         href_list_1 = set(href_list_1)
+        print(href_list_1)
         for href in href_list_1:
-            yield response.follow(url=href, callback=self.parseItem)
+            yield response.follow(url=href, callback=self.parseTopic)
     
+    def parseTopic(self,response):
+        href_list_2 = response.xpath('//*[@id="tpgp"]/article/section/ul/li/a/@href').extract()
+        href_list_2 = set(href_list_2)
+        for href in href_list_2:
+            yield response.follow(url=href, callback=self.parseItem)
+            
     def parseItem(self,response):
+        url = response.url
+        
+        if self.incremental and url in self.recorded_urls:
+            return 
+            
         name = response.xpath('//*[@id="topic"]/article/div[1]/div[1]/h1/text()').get()
         if name is not None:
             name = name.replace('\n                        ','')
@@ -54,10 +78,9 @@ class MedlineSpider(scrapy.Spider):
         
         yield{
             'name':name,
+            'url':url,
             'also_called':also_called,
             'summary':summary_content,
             'body':main_content,
         }
         
-        self.count+=1
-        self.writeCount()

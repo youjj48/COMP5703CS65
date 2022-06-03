@@ -1,0 +1,13 @@
+setup.py
+HopkinsSpider/__init__.py
+HopkinsSpider/items.py
+HopkinsSpider/middlewares.py
+HopkinsSpider/pipelines.py
+HopkinsSpider/settings.py
+HopkinsSpider.egg-info/PKG-INFO
+HopkinsSpider.egg-info/SOURCES.txt
+HopkinsSpider.egg-info/dependency_links.txt
+HopkinsSpider.egg-info/entry_points.txt
+HopkinsSpider.egg-info/top_level.txt
+HopkinsSpider/spiders/__init__.py
+HopkinsSpider/spiders/hopkins.py

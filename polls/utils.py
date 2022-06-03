@@ -164,7 +164,7 @@ def clients_of_task(task):
     :param task: task object
     :return:
     """
-    from gerapy.server.core.models import Client
+    from .models import Client
     client_ids = json.loads(task.clients)
     for client_id in client_ids:
         client = Client.objects.get(id=client_id)

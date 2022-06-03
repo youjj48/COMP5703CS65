@@ -47,19 +47,22 @@ urlpatterns = [
     re_path(r'^api/task/(\d+)/remove', views.task_remove, name='task_remove'),
     re_path(r'^api/task/(\d+)/status', views.task_status, name='task_status'),
     re_path(r'^api/logs_tree', views.logs_tree, name='logs_tree'),
+    re_path(r'^api/result_tree', views.results_tree, name='result_tree'),
+    re_path(r'^api/result_read', views.results_file_read, name='results_file_read'),
     re_path(r'^api/nlp_tree', views.nlp_tree, name='nlp_tree'),
     re_path(r'^api/nlp/run', views.nlp_run, name='nlp_run'),
     re_path(r'^api/neo4j/create', views.neo4j_create, name='neo4j_create'),
     re_path(r'^api/neo4j/modify', views.neo4j_modify, name='neo4j_modify'),
     re_path(r'^api/neo4j/delete', views.neo4j_delete, name='neo4j_delete'),
     re_path(r'^api/neo4j/find', views.neo4j_find, name='neo4j_find'),
+    re_path(r'^api/neo4j/get_labels', views.neo4j_get_labels, name='neo4j_get_labels'),
+    re_path(r'^api/neo4j/chart_data', views.neo4j_chart_data, name='neo4j_chart_data'),
+    re_path('neo4j_graph.html', views.neo4j_graph, name='neo4j_graph'),
     re_path(r'^api/render', views.render_html, name='render_html'),
 ]
 
 urlpatterns += [
-    path(r'add_book$', views.add_book),
-    path(r'show_books$', views.show_books),
     re_path(r'^static/(?P<path>.*)$',
-    serve,
-    {'document_root': settings.STATIC_ROOT})
+            serve,
+            {'document_root': settings.STATIC_ROOT})
 ]
