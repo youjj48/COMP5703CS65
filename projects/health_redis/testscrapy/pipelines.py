@@ -10,9 +10,9 @@ import json
 import os
 class TestscrapyPipeline:
     def __init__(self):
-        if(os.path.exists('D:/crawler_results') == False):
-            os.makedirs('D:/crawler_results')
-        self.file = open('D:/crawler_results/health.json','w',encoding='utf-8')
+        if(os.path.exists('./crawler_results') == False):
+            os.makedirs('./crawler_results')
+        self.file = open('./crawler_results/health.json','w',encoding='utf-8')
     def process_item(self, item, spider):
         self.file.write(json.dumps(dict(item),ensure_ascii=False) + "\n")
         return item
