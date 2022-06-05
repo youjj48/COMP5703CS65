@@ -37,10 +37,10 @@ def new_word_tokenize(sentence_lst):
     for sentence in sentence_lst:
         word_lst = word_tokenize(sentence)
         # stop_words = sw.words('english')
-        punct_lst = [';', ':', '[', ']', '(', ')', ',', '.', '|', '{', '}', '+', '-', '*', '/', '%', '!', '&', '$', '?',
-                     '#']
-        word_token = [word.lower() for word in word_lst if not word in punct_lst]
-        result.append(word_token)
+        punct_lst = [';',':','[',']','.','|','{','}','+','-','*','/','%','!','&','$','?','#']
+        word_token = [word for word in word_lst if not word in punct_lst]
+        if word_token:
+            result.append(word_token)
     return result
 
 

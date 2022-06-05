@@ -207,7 +207,12 @@ def get_entities(text,result):
     return entities
 
 def get_relations(original,predicted):
-    #original represents the type of the title
+    """
+        Label conversion based on predicted values and document types.
+        :param original: document types(DISEASE or SYMPTOM)
+        :param predicted: predicted values
+        :return: New tag names
+    """
     if original == "DISEASE":
         if predicted == "DISEASE":
             return "DISEASE_RELATED_DISEASE"
@@ -221,6 +226,8 @@ def get_relations(original,predicted):
             return "DISEASE_CORRESPONDING_DRUG"
         elif predicted == "POSITION":
             return "DISEASE_CORRESPONDING_POSITION"
+        elif predicted == "CAUSE":
+            return "DISEASE_CORRESPONDING_CAUSE"
         else:
             return "UNKNOWN"
     elif original == "SYMPTOM":
@@ -236,6 +243,8 @@ def get_relations(original,predicted):
             return "SYMPTOM_CORRESPONDING_DRUG"
         elif predicted == "POSITION":
             return "SYMPTOM_CORRESPONDING_POSITION"
+        elif predicted == "CAUSE":
+            return "SYMPTOM_CORRESPONDING_CAUSE"
         else:
             return "UNKNOWN"
     else:

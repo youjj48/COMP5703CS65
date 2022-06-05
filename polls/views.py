@@ -1120,9 +1120,10 @@ def neo4j_find(request):
         form = json.loads(request.body)
 
         disease_name = form['disease']
+        label_name = form['label']
         app = App(uri, user, password)
 
-        output = app.find_node(disease_name)
+        output = app.find_node(label_name,disease_name)
 
         return JsonResponse(output)
 
@@ -1137,18 +1138,9 @@ def neo4j_get_labels(request):
     """
     if request.method == 'GET':
         app = App(uri, user, password)
-        output = app.get_nodes()
-        result = {}
-        n = 0
-        counts = 0
-        data = []
-        for row in output:
-            n += 1
-            counts += int(row["Counts"])
-        result["Labels"] = str(n)
-        result["Overall"] = str(counts)
-        data.append(result)
-        return JsonResponse(data)
+        output = app.find_distinct_node_rel_node()
+
+        return JsonResponse(output)
 
 
 @log_exception()

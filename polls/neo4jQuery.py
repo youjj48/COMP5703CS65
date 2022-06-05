@@ -6,6 +6,7 @@ uri = "neo4j+s://227816f4.databases.neo4j.io"
 user = "neo4j"
 password = "0A2TcqorfsDg-ai2Brr3YUDuHnYR3UGyeOm5dcWKHgo"
 
+
 class App:
     label_relation = {"Symptom": "HAS_SYMPTON", "Cause": "CAUSE", "Disease": "COMPLICATION", "Prevention": "PREVENT",
                       "Treatment": "TREAT", "Diagnosis": "DIAGNOSE"}
@@ -49,17 +50,18 @@ class App:
                 query=query, exception=exception))
             raise
 
-    def find_node(self, disease_name):
+    def find_node(self, label, disease_name):
         with self.driver.session() as session:
             disease_name_query = str(disease_name)
+            label_name = str(label)
             query = (
-                "MATCH relation=(d:Disease)--(node)"
-                f"WHERE d.name = \"{disease_name_query}\" "
-                "RETURN relation"
+                    "MATCH relation=(d:" + label_name + ")--(node)"
+                                                        f"WHERE d.name = \"{disease_name_query}\" "
+                                                        "RETURN relation"
             )
-            result = session.read_transaction(self._find_and_return_node, disease_name)
+            result = session.read_transaction(self._find_and_return_node, label, disease_name)
             result_find_list = []
-            result_find={}
+            result_find = {}
             output = {}
             for node in result:
                 result_find["Relation"] = node[0]
@@ -73,19 +75,19 @@ class App:
             return output
 
     @staticmethod
-    def _find_and_return_node(tx, disease_name):
+    def _find_and_return_node(tx, label, node_name):
         query = (
-            "MATCH relation=(d:Disease)--(node)"
-            "WHERE d.name = $disease_name "
-            "RETURN relation"
+                "MATCH relation=(d:" + label + ")--(node)"
+                                               "WHERE d.name = $node_name "
+                                               "RETURN relation"
         )
-        result = tx.run(query, disease_name=disease_name)
+        result = tx.run(query, label=label, node_name=node_name)
         # ipdb.set_trace()
         return_list = []
         for row in result:
             return_dict = row.data()
             node_label = return_dict['relation'][1]
-            node_value = return_dict['relation'][2]
+            node_value = return_dict['relation'][2]['name']
             # print(node_label,node_value)
             return_list.append([node_label, node_value])
         return return_list
@@ -126,9 +128,39 @@ class App:
         result = tx.run(query, node_label=node_label, node_name=node_name, after_name=after_name)
         return result
 
+    @staticmethod
+    def _find_distinct_node_rel_node(tx):
+        query = (
+            "MATCH (a)-[r]->(b)"
+            "RETURN DISTINCT labels(a) AS a, TYPE(r) AS r, labels(b) AS b"
+        )
+        result = tx.run(query)
+        return_list = []
+        for row in result:
+            return_dict = row.data()
+            node_a = return_dict['a']
+            relation = return_dict['r']
+            node_b = return_dict['b']
+
+            return_list.append([node_a, relation, node_b])
+        return return_list
+
+    def find_distinct_node_rel_node(self):
+        with self.driver.session() as session:
+            result = session.read_transaction(self._find_distinct_node_rel_node)
+            list = {}
+            all_list = []
+            for node in result:
+                list["label_1"] = format(node[0][0])
+                list["relation"] = str(format(node[1]))
+                list["label_2"] = str(format(node[1]))
+                l_list = list.copy()
+                all_list.append(l_list)
+            return(all_list)
+
     def get_nodes(self):
         with self.driver.session() as session:
-            result =session.read_transaction(self._get_nodes)
+            result = session.read_transaction(self._get_nodes)
             list = {}
             all_list = []
             for node in result:
@@ -140,7 +172,7 @@ class App:
 
     @staticmethod
     def _get_nodes(tx):
-        query =("MATCH (n) RETURN distinct labels(n), count(*)")
+        query = ("MATCH (n) RETURN distinct labels(n), count(*)")
         result = tx.run(query)
         return_list = []
         for row in result:
