@@ -153,7 +153,7 @@ class App:
             for node in result:
                 list["label_1"] = format(node[0][0])
                 list["relation"] = str(format(node[1]))
-                list["label_2"] = str(format(node[1]))
+                list["label_2"] = str(format(node[2][0]))
                 l_list = list.copy()
                 all_list.append(l_list)
             return(all_list)
