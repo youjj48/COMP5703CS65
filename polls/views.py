@@ -4,6 +4,7 @@ import re
 import base64
 import requests
 import json
+import torch
 import time
 import pytz
 import zipfile
@@ -1003,7 +1004,18 @@ def nlp_tree(request):
         path = os.path.abspath(join(os.getcwd(), MODEL_DIR))
         # get tree data
         tree = get_tree(join(path))
-        return JsonResponse(tree)
+        models = {}
+        model_list = []
+        data = {}
+
+        for item in tree:
+            models['label'] = item['label']
+            model_list.append(models.copy())
+
+        data['tree'] = tree
+        data['model'] = model_list
+
+        return JsonResponse(data)
 
 
 @log_exception()
@@ -1020,6 +1032,10 @@ def nlp_run(request):
         title = form['title']
         input_text = form['text']
         title_type = form['type']
+        models = form['model']
+
+        model.load_state_dict(torch.load(f'models/{models}', map_location=torch.device('cpu')))
+        model.eval()
 
         # split txt into sentences
         sentence_lst = sent_tokenize(input_text)

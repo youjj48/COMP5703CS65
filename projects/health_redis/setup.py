@@ -1,10 +1,8 @@
-# Automatically created by: scrapyd-deploy
-
+# Automatically created by: gerapy
 from setuptools import setup, find_packages
-
 setup(
-    name         = 'project',
-    version      = '1.0',
-    packages     = find_packages(),
-    entry_points = {'scrapy': ['settings = testscrapy.settings']},
+    name='health_redis',
+    version='1.0',
+    packages=find_packages(),
+    entry_points={'scrapy':['settings=health_redis.settings']},
 )

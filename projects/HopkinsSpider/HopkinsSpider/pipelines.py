@@ -7,12 +7,10 @@
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
 import json
-import os
+
 class HopkinsspiderPipeline:
     def __init__(self):
-        if(os.path.exists('./crawler_results') == False):
-            os.makedirs('./crawler_results')
-        self.file = open('./crawler_results/hopkins.json','w',encoding='utf-8')
+        self.file = open('test.json','w',encoding='utf-8')
     def process_item(self, item, spider):
         self.file.write(json.dumps(dict(item),ensure_ascii=False) + "\n")
         return item

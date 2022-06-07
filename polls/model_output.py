@@ -14,8 +14,7 @@ device = torch.device('cpu')
 bert_model = "microsoft/BiomedNLP-PubMedBERT-base-uncased-abstract-fulltext"
 Tokenizer = AutoTokenizer.from_pretrained(bert_model, add_special_tokens=False)
 model = BERTBiLSTMCRF(num_tags=16).to(device)
-model.load_state_dict(torch.load('models/NER_model_v1.pt', map_location=torch.device('cpu')))
-model.eval()
+
 
 # console input the paragraph and title
 # input_text, title, title_type = map(str,
