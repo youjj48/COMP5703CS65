@@ -45,6 +45,7 @@ def retry_on_eintr(function, *args, **kw):
             if e.errno != errno.EINTR:
                 raise
 
+
 # build Egg
 def build_egg(project):
     '''

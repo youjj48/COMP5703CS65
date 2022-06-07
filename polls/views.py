@@ -19,24 +19,24 @@ from django.core.serializers import serialize
 from django.http import HttpResponse
 from django.forms.models import model_to_dict
 from django.utils import timezone
-from django.views.decorators.http import require_http_methods
 from django_apscheduler.models import DjangoJob, DjangoJobExecution
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from subprocess import Popen, PIPE
-from .neo4jQuery import App,uri,user,password
-
-sys.path.append('../..')
-
+from .neo4jQuery import App, uri, user, password
 from .__init__ import get_logger
 from cs65_4_1.settings import TIME_ZONE
 from .build import build_project, find_egg
-from .utils import log_exception, scrapyd_url, IGNORES, get_scrapyd, bytes2str, get_tree, log_url, is_in_curdir, clients_of_task, get_job_id, process_html, post_process
+from .utils import log_exception, scrapyd_url, IGNORES, get_scrapyd, bytes2str, get_tree, log_url, is_in_curdir, \
+    clients_of_task, get_job_id, process_html, post_process
 from .models import Client, Deploy, Project, Monitor, Task
-from settings import PROJECTS_FOLDER, LOG_DIR, MODEL_DIR, RESULT_DIR
+from settings import PROJECTS_FOLDER, MODEL_DIR, RESULT_DIR, READ_LOG_DIR
 from .response import JsonResponse
 from nltk.tokenize import sent_tokenize
 from .model_output import new_word_tokenize, predict_in_doc, model
+
+sys.path.append('../..')
+
 logger = get_logger(__name__)
 
 
@@ -83,24 +83,6 @@ def index_status(request):
                 data['project'] += 1
         return JsonResponse(data)
 
-@log_exception()
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def base(request):
-    """
-    render index page
-    :param request: request object
-    :return: page
-    """
-    print('base')
-    return render(request, 'polls/readjson.html')
-
-@log_exception()
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def view_name(request):
-
-    return render(request, 'polls/client_index.html')
 
 @log_exception()
 @api_view(['GET'])
@@ -113,6 +95,7 @@ def client_index(request):
     """
     return HttpResponse(serialize('json', Client.objects.order_by('-id')))
 
+
 @log_exception()
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -120,11 +103,12 @@ def client_info(request, client_id):
     """
     get client info
     :param request: request object
-    :param id: client id
+    :param client_id: client id
     :return: json
     """
     if request.method == 'GET':
         return JsonResponse(model_to_dict(Client.objects.get(id=client_id)))
+
 
 @log_exception()
 @api_view(['GET'])
@@ -142,6 +126,7 @@ def client_status(request, client_id):
         requests.get(scrapyd_url(client.ip, client.port), timeout=3)
         return JsonResponse({'result': '1'})
 
+
 @log_exception()
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -158,6 +143,7 @@ def client_update(request, client_id):
         client.update(**data)
         return JsonResponse(model_to_dict(Client.objects.get(id=client_id)))
 
+
 @log_exception()
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -171,6 +157,7 @@ def client_create(request):
         data = json.loads(request.body)
         client = Client.objects.create(**data)
         return JsonResponse(model_to_dict(client))
+
 
 @log_exception()
 @api_view(['POST'])
@@ -189,6 +176,7 @@ def client_remove(request, client_id):
         # delete client
         Client.objects.filter(id=client_id).delete()
         return JsonResponse({'result': '1'})
+
 
 @log_exception()
 @api_view(['GET'])
@@ -228,6 +216,7 @@ def spider_start(request, client_id, project_name, spider_name):
         job = scrapyd.schedule(project_name, spider_name)
         return JsonResponse({'job': job})
 
+
 @log_exception()
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -259,6 +248,7 @@ def job_log(request, client_id, project_name, spider_name, job_id):
         text = response.content.decode(encoding, errors='replace')
         return HttpResponse(text)
 
+
 @log_exception()
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -282,6 +272,7 @@ def job_list(request, client_id, project_name):
                 jobs.append(job)
         return JsonResponse(jobs)
 
+
 @log_exception()
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -300,6 +291,7 @@ def job_cancel(request, client_id, project_name, job_id):
         result = scrapyd.cancel(project_name, job_id)
         return JsonResponse(result)
 
+
 @log_exception()
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -315,6 +307,7 @@ def project_list(request, client_id):
         scrapyd = get_scrapyd(client)
         projects = scrapyd.list_projects()
         return JsonResponse(projects)
+
 
 @log_exception()
 @api_view(['GET'])
@@ -333,6 +326,7 @@ def project_index(request):
             if os.path.isdir(join(path, file)) and not file in IGNORES:
                 project_list.append({'name': file})
         return JsonResponse(project_list)
+
 
 @log_exception()
 @api_view(['GET', 'POST'])
@@ -372,6 +366,7 @@ def project_configure(request, project_name):
         else:
             return JsonResponse({'status': '0', 'message': stderr})
 
+
 @log_exception()
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -387,6 +382,7 @@ def project_tree(request, project_name):
         # get tree data
         tree = get_tree(join(path, project_name))
         return JsonResponse(tree)
+
 
 @log_exception()
 @api_view(['GET'])
@@ -425,6 +421,7 @@ def project_version(request, client_id, project_name):
         # return deploy json info
         return JsonResponse(model_to_dict(deploy))
 
+
 @log_exception()
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -458,6 +455,7 @@ def project_deploy(request, client_id, project_name):
                                                          description=project.description)
         return JsonResponse(model_to_dict(deploy))
 
+
 @log_exception()
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -477,9 +475,10 @@ def project_create(request):
         os.mkdir(path)
         return JsonResponse(model_to_dict(project))
 
+
 @log_exception()
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def project_upload(request):
     """
     upload project
@@ -522,6 +521,7 @@ def project_clone(request):
         if stderr:
             logger.error(stderr)
         return JsonResponse({'status': True}) if not stderr else JsonResponse({'status': False})
+
 
 @log_exception()
 @api_view(['GET', 'POST'])
@@ -626,13 +626,14 @@ def project_parse(request, project_name):
         cmd = ['gerapy', 'parse'] + args_array + [project_path] + [spider_name]
         logger.debug('parse cmd %s', cmd)
         p = Popen(cmd, shell=False, stdin=PIPE,
-                         stdout=PIPE, stderr=PIPE, close_fds=True)
+                  stdout=PIPE, stderr=PIPE, close_fds=True)
         stdout, stderr = bytes2str(p.stdout.read()), bytes2str(p.stderr.read())
         logger.debug('stdout %s, stderr %s', stdout, stderr)
         if not stderr:
             return JsonResponse({'status': True, 'result': json.loads(stdout)})
         else:
             return JsonResponse({'status': False, 'message': stderr})
+
 
 @log_exception()
 @api_view(['POST'])
@@ -658,6 +659,7 @@ def project_remove(request, project_name):
             rmtree(project_path)
         return JsonResponse({'result': result})
 
+
 @log_exception()
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -676,6 +678,7 @@ def project_file_rename(request):
         os.rename(pre, new)
         return JsonResponse({'result': '1'})
 
+
 @log_exception()
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -693,6 +696,7 @@ def project_file_delete(request):
         result = os.remove(path)
         return JsonResponse({'result': result})
 
+
 @log_exception()
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -709,6 +713,7 @@ def project_file_create(request):
             return JsonResponse({'result': '0'})
         open(path, 'w', encoding='utf-8').close()
         return JsonResponse({'result': '1'})
+
 
 @log_exception()
 @api_view(['POST'])
@@ -729,6 +734,7 @@ def project_file_update(request):
             f.write(code)
             return JsonResponse({'result': '1'})
 
+
 @log_exception()
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -747,6 +753,7 @@ def project_file_read(request):
         with open(path, 'rb') as f:
             return HttpResponse(f.read().decode('utf-8'))
 
+
 @log_exception()
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -763,6 +770,7 @@ def monitor_create(request):
             data['configuration'], ensure_ascii=False)
         monitor = Monitor.objects.create(**data)
         return JsonResponse(model_to_dict(monitor))
+
 
 @log_exception()
 @api_view(['POST'])
@@ -781,6 +789,7 @@ def monitor_db_list(request):
             client = pymongo.MongoClient(url)
             dbs = client.list_database_names()
             return JsonResponse(dbs)
+
 
 @log_exception()
 @api_view(['POST'])
@@ -801,6 +810,7 @@ def monitor_collection_list(request):
             db = client[db]
             collections = db.collection_names()
             return JsonResponse(collections)
+
 
 @log_exception()
 @api_view(['POST'])
@@ -929,30 +939,30 @@ def task_status(request, task_id):
             })
         return JsonResponse({'data': result})
 
+
 @log_exception()
 @api_view(['GET'])
-#@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def logs_tree(request):
     """
-    get file tree of project
-    :param request: request object
-    :param project_name: project name
+    get file tree of logs
+    :param request: request logs
     :return: json of tree
     """
     if request.method == 'GET':
-        path = os.path.abspath(join(os.getcwd(), LOG_DIR))
+        path = os.path.abspath(join(os.getcwd(), READ_LOG_DIR))
         # get tree data
         tree = get_tree(join(path))
         return JsonResponse(tree)
 
+
 @log_exception()
 @api_view(['GET'])
-#@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def results_tree(request):
     """
-    get file tree of project
+    get file tree of results
     :param request: request object
-    :param project_name: project name
     :return: json of tree
     """
     if request.method == 'GET':
@@ -960,6 +970,7 @@ def results_tree(request):
         # get tree data
         tree = get_tree(join(path))
         return JsonResponse(tree)
+
 
 @log_exception()
 @api_view(['POST'])
@@ -981,12 +992,11 @@ def results_file_read(request):
 
 @log_exception()
 @api_view(['GET'])
-#@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def nlp_tree(request):
     """
-    get file tree of project
+    get file tree of nlp models
     :param request: request object
-    :param project_name: project name
     :return: json of tree
     """
     if request.method == 'GET':
@@ -995,15 +1005,15 @@ def nlp_tree(request):
         tree = get_tree(join(path))
         return JsonResponse(tree)
 
+
 @log_exception()
 @api_view(['POST'])
-#@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def nlp_run(request):
     """
     get param of model
     :param request: request object
-    :param project_name: project name
-    :return: json of tree
+    :return: json of result of nlp
     """
     if request.method == 'POST':
         form = json.loads(request.body)
@@ -1022,34 +1032,15 @@ def nlp_run(request):
 
         return JsonResponse(data)
 
-@log_exception()
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def render_html(request):
-    """
-    render html with url
-    :param request:
-    :return:
-    """
-    if request.method == 'GET':
-        url = request.GET.get('url')
-        url = unquote(base64.b64decode(url).decode('utf-8'))
-        js = request.GET.get('js', 0)
-        script = request.GET.get('script')
-        response = requests.get(url, timeout=5)
-        response.encoding = response.apparent_encoding
-        html = process_html(response.text)
-        return HttpResponse(html)
 
 @log_exception()
 @api_view(['POST'])
-#@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def neo4j_create(request):
     """
     get param of model
     :param request: request object
-    :param project_name: project name
-    :return: json of tree
+    :return: output of neo4j node
     """
     if request.method == 'POST':
         form = json.loads(request.body)
@@ -1063,15 +1054,15 @@ def neo4j_create(request):
 
         return JsonResponse(output)
 
+
 @log_exception()
 @api_view(['POST'])
-#@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def neo4j_modify(request):
     """
     get param of model
     :param request: request object
-    :param project_name: project name
-    :return: json of tree
+    :return: output of neo4j modify
     """
     if request.method == 'POST':
         form = json.loads(request.body)
@@ -1085,15 +1076,15 @@ def neo4j_modify(request):
 
         return JsonResponse(output)
 
+
 @log_exception()
 @api_view(['POST'])
-#@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def neo4j_delete(request):
     """
     get param of model
     :param request: request object
-    :param project_name: project name
-    :return: json of tree
+    :return: output of delete
     """
     if request.method == 'POST':
         form = json.loads(request.body)
@@ -1106,15 +1097,15 @@ def neo4j_delete(request):
 
         return JsonResponse(output)
 
+
 @log_exception()
 @api_view(['POST'])
-#@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def neo4j_find(request):
     """
     get param of model
     :param request: request object
-    :param project_name: project name
-    :return: json of tree
+    :return: output of find node
     """
     if request.method == 'POST':
         form = json.loads(request.body)
@@ -1123,9 +1114,10 @@ def neo4j_find(request):
         label_name = form['label']
         app = App(uri, user, password)
 
-        output = app.find_node(label_name,disease_name)
+        output = app.find_node(label_name, disease_name)
 
         return JsonResponse(output)
+
 
 @log_exception()
 @api_view(['GET'])
@@ -1173,9 +1165,10 @@ def neo4j_chart_data(request):
         result['chart'] = chart_data
         return JsonResponse(result)
 
+
 @log_exception()
 @api_view(['GET'])
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def neo4j_graph(request):
     """
     render index page
@@ -1183,3 +1176,23 @@ def neo4j_graph(request):
     :return: page
     """
     return render(request, 'neo4j_graph.html')
+
+
+@log_exception()
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def render_html(request):
+    """
+    render html with url
+    :param request:
+    :return:
+    """
+    if request.method == 'GET':
+        url = request.GET.get('url')
+        url = unquote(base64.b64decode(url).decode('utf-8'))
+        js = request.GET.get('js', 0)
+        script = request.GET.get('script')
+        response = requests.get(url, timeout=5)
+        response.encoding = response.apparent_encoding
+        html = process_html(response.text)
+        return HttpResponse(html)

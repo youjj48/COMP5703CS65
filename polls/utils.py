@@ -1,10 +1,6 @@
 import sys
 import fnmatch
 import re
-import traceback
-import json
-import os
-import string
 from copy import deepcopy
 from furl import furl
 from subprocess import Popen, PIPE, STDOUT
@@ -13,17 +9,31 @@ from shutil import ignore_patterns, copy2, copystat
 from jinja2 import Template
 from scrapyd_api import ScrapydAPI
 from bs4 import BeautifulSoup
-
+import traceback
+import json
+import os
+import string
 from shutil import move, copy, rmtree
 from os.path import join, exists, dirname
+from django.utils import timezone
 
 sys.path.append('../..')
 
 from . import get_logger
+from settings import PROJECTS_FOLDER
 
 IGNORES = ['.git/', '*.pyc', '.DS_Store', '.idea/',
            '*.egg', '*.egg-info/', '*.egg-info', 'build/']
 
+TEMPLATES_DIR = join(dirname(abspath(__file__)), 'templates')
+
+TEMPLATES_TO_RENDER = (
+    ('scrapy.cfg',),
+    ('${project_name}', 'settings.py.tmpl'),
+    ('${project_name}', 'items.py.tmpl'),
+    ('${project_name}', 'pipelines.py.tmpl'),
+    ('${project_name}', 'middlewares.py.tmpl'),
+)
 NO_REFERRER = '<meta name="referrer" content="never">'
 
 BASE = '<base href="{href}">'
@@ -31,15 +41,17 @@ BASE = '<base href="{href}">'
 VOCAB = (
     'O', '[PAD]', 'B-DISEASE', 'I-DISEASE', 'B-SYMPTOM',
     'I-SYMPTOM', 'B-CAUSE', 'I-CAUSE', 'B-POSITION',
-    'I-POSITION','B-TREATMENT', 'I-TREATMENT',
+    'I-POSITION', 'B-TREATMENT', 'I-TREATMENT',
     'B-DRUG', 'I-DRUG', 'B-EXAMINATION', 'I-EXAMINATION')
 label2index = {tag: idx for idx, tag in enumerate(VOCAB)}
 index2label = {idx: tag for idx, tag in enumerate(VOCAB)}
+
 
 def get_scrapyd(client):
     if not client.auth:
         return ScrapydAPI(scrapyd_url(client.ip, client.port))
     return ScrapydAPI(scrapyd_url(client.ip, client.port), auth=(client.username, client.password))
+
 
 def scrapyd_url(ip, port):
     """
@@ -49,6 +61,20 @@ def scrapyd_url(ip, port):
     :return: string
     """
     url = 'http://{ip}:{port}'.format(ip=ip, port=port)
+    return url
+
+def log_url(ip, port, project, spider, job):
+    """
+    get log url
+    :param ip: host
+    :param port: port
+    :param project: project
+    :param spider: spider
+    :param job: job
+    :return: string
+    """
+    url = 'http://{ip}:{port}/logs/{project}/{spider}/{job}.log'.format(ip=ip, port=port, project=project,
+                                                                        spider=spider, job=job)
     return url
 
 def ignored(ignores, path, file):
@@ -69,23 +95,65 @@ def ignored(ignores, path, file):
             return True
     return False
 
-def log_exception(exception=Exception, logger=None):
+def is_valid_name(project_name):
     """
-    used for log exceptions
+    judge name is valid
+    :param project_name:
+    :return:
     """
-    if not logger:
-        logger = get_logger(__name__)
+    logger = get_logger(__name__)
+    if not re.search(r'^[_a-zA-Z]\w*$', project_name):
+        logger.error('project name %s must begin with a letter and contain only letters, numbers and underscores',
+                     project_name)
+        return False
+    return True
 
-    def deco(func):
-        def wrapper(*args, **kwargs):
-            try:
-                result = func(*args, **kwargs)
-            except exception as err:
-                logger.exception(err, exc_info=True)
-            else:
-                return result
-        return wrapper
-    return deco
+def generate_project(project_name):
+    """
+    generate project code
+    :param project_name: project name
+    :return: project data
+    """
+    # get configuration
+    from .models import Project
+    configuration = Project.objects.get(name=project_name).configuration
+    configuration = json.loads(configuration)
+    # remove original project dir
+    project_dir = join(PROJECTS_FOLDER, project_name)
+    if exists(project_dir):
+        rmtree(project_dir)
+    # generate project
+    copy_tree(join(TEMPLATES_DIR, 'project'), project_dir)
+    move(join(PROJECTS_FOLDER, project_name, 'module'),
+         join(project_dir, project_name))
+    for paths in TEMPLATES_TO_RENDER:
+        path = join(*paths)
+        tplfile = join(project_dir,
+                       string.Template(path).substitute(project_name=project_name))
+        items = get_items_configuration(configuration)
+        vars = {
+            'project_name': project_name,
+            'items': items,
+        }
+        render_template(tplfile, tplfile.rstrip('.tmpl'), **vars)
+    # generate spider
+    spiders = configuration.get('spiders')
+    for spider in spiders:
+        spider = process_custom_settings(spider)
+        source_tpl_file = join(TEMPLATES_DIR, 'spiders', 'crawl.tmpl')
+        new_tpl_file = join(PROJECTS_FOLDER, project_name,
+                            project_name, 'spiders', 'crawl.tmpl')
+        spider_file = "%s.py" % join(
+            PROJECTS_FOLDER, project_name, project_name, 'spiders', spider.get('name'))
+        copy(source_tpl_file, new_tpl_file)
+        render_template(new_tpl_file, spider_file,
+                        spider=spider, project_name=project_name)
+    # save generated_at attr
+    model = Project.objects.get(name=project_name)
+    model.generated_at = timezone.now()
+    # clear built_at attr
+    model.built_at = None
+    model.save()
 
 def bytes2str(data):
     """
@@ -97,6 +165,31 @@ def bytes2str(data):
         data = data.decode('utf-8')
     data = data.strip()
     return data
+
+def copy_tree(src, dst):
+    """
+    copy tree
+    :param src:
+    :param dst:
+    :return:
+    """
+    ignore = ignore_patterns(*IGNORES)
+    names = os.listdir(src)
+    ignored_names = ignore(src, names)
+    if not os.path.exists(dst):
+        os.makedirs(dst)
+
+    for name in names:
+        if name in ignored_names:
+            continue
+
+        src_name = os.path.join(src, name)
+        dst_name = os.path.join(dst, name)
+        if os.path.isdir(src_name):
+            copy_tree(src_name, dst_name)
+        else:
+            copy2(src_name, dst_name)
+    copystat(src, dst)
 
 def get_tree(path, ignores=IGNORES):
     """
@@ -121,28 +214,49 @@ def get_tree(path, ignores=IGNORES):
                 result.append({'label': file, 'path': path})
     return result
 
-def log_url(ip, port, project, spider, job):
+def render_template(tpl_file, dst_file, *args, **kwargs):
     """
-    get log url
-    :param ip: host
-    :param port: port
-    :param project: project
-    :param spider: spider
-    :param job: job
-    :return: string
+    render template
+    :param tpl_file: Template file name
+    :param dst_file: Destination file name
+    :param args: args
+    :param kwargs: kwargs
+    :return: None
     """
-    url = 'http://{ip}:{port}/logs/{project}/{spider}/{job}.log'.format(ip=ip, port=port, project=project,
-                                                                        spider=spider, job=job)
-    return url
+    vars = dict(*args, **kwargs)
+    template = Template(open(tpl_file, encoding='utf-8').read())
+    os.remove(tpl_file)
+    result = template.render(vars)
+    open(dst_file, 'w', encoding='utf-8').write(result)
 
-def get_job_id(client, task):
+def get_traceback():
     """
-    construct job id
-    :param client: client object
-    :param task: task object
-    :return: job id
+    get last line of error
+    :return: String
     """
-    return '%s-%s-%s' % (client.name, task.project, task.spider)
+    info = traceback.format_exc(limit=1)
+    if info:
+        info = info.splitlines()
+        info = list(filter(lambda x: x, info))
+        if len(info):
+            return info[-1]
+        return None
+    return info
+
+def process_response(response):
+    """
+    process response to dict
+    :param response:
+    :return:
+    """
+    return {
+        'html': process_html(response.text, furl(response.url).origin),
+        'url': response.url,
+        'status': response.status
+    }
+
+def process_item(item):
+    return dict(item)
 
 def process_html(html, base_url):
     """
@@ -158,6 +272,132 @@ def process_html(html, base_url):
     # html = unescape(html)
     return html
 
+def get_output_error(project_name, spider_name):
+    """
+    get scrapy runtime error
+    :param project_name: project name
+    :param spider_name: spider name
+    :return: output, error
+    """
+    work_cwd = os.getcwd()
+    project_path = join(PROJECTS_FOLDER, project_name)
+    try:
+        os.chdir(project_path)
+        cmd = ' '.join(['scrapy', 'crawl', spider_name])
+        p = Popen(cmd, shell=True, stdin=PIPE, stdout=PIPE,
+                  stderr=STDOUT, close_fds=True)
+        output = p.stdout.read()
+        if isinstance(output, bytes):
+            output = output.decode('utf-8')
+        return output
+    finally:
+        os.chdir(work_cwd)
+
+def get_items_configuration(configuration):
+    """
+    get items configuration including allowed_spiders and tables or collections
+    :param configuration: configuration data
+    :return: items
+    """
+    configuration = deepcopy(configuration)
+    items = configuration.get('items')
+    spiders = configuration.get('spiders')
+    for spider in spiders:
+        # MongoDB
+        mongodb_collection_map = spider.get(
+            'storage').get('mongodb').get('collections')
+        for mongodb_collection_map_item in mongodb_collection_map:
+            collection = mongodb_collection_map_item.get('collection')
+            item_name = mongodb_collection_map_item.get('item')
+            for item in items:
+                if item.get('name') == item_name:
+                    allowed_spiders = item.get('mongodb_spiders', set())
+                    allowed_spiders.add(spider.get('name'))
+                    mongodb_collections = item.get(
+                        'mongodb_collections', set())
+                    mongodb_collections.add(collection)
+                    item['mongodb_spiders'], item['mongodb_collections'] = allowed_spiders, mongodb_collections
+
+        # MySQL
+        mysql_table_map = spider.get('storage').get('mysql').get('tables')
+        for mysql_table_map_item in mysql_table_map:
+            collection = mysql_table_map_item.get('table')
+            item_name = mysql_table_map_item.get('item')
+            for item in items:
+                if item.get('name') == item_name:
+                    allowed_spiders = item.get('mysql_spiders', set())
+                    allowed_spiders.add(spider.get('name'))
+                    mysql_tables = item.get('mysql_tables', set())
+                    mysql_tables.add(collection)
+                    item['mysql_spiders'], item['mysql_tables'] = allowed_spiders, mysql_tables
+    # transfer attr
+    attrs = ['mongodb_spiders', 'mongodb_collections',
+             'mysql_spiders', 'mysql_tables']
+    for item in items:
+        for attr in attrs:
+            if item.get(attr):
+                item[attr] = list(item[attr])
+    return items
+
+
+def process_custom_settings(spider):
+    """
+    process custom settings of some config items
+    :param spider:
+    :return:
+    """
+    custom_settings = spider.get('custom_settings')
+
+    def add_dict_to_custom_settings(custom_settings, keys):
+        """
+        if config doesn't exist, add default value
+        :param custom_settings:
+        :param keys:
+        :return:
+        """
+        for key in keys:
+            for item in custom_settings:
+                if item['key'] == key:
+                    break
+            else:
+                custom_settings.append({
+                    'key': key,
+                    'value': '{}'
+                })
+        return custom_settings
+
+    keys = ['DOWNLOADER_MIDDLEWARES', 'SPIDER_MIDDLEWARES', 'ITEM_PIPELINES']
+    custom_settings = add_dict_to_custom_settings(custom_settings, keys)
+    for item in custom_settings:
+
+        if item['key'] == 'DOWNLOADER_MIDDLEWARES':
+            item_data = json.loads(item['value'])
+            if spider.get('cookies', {}).get('enable', {}):
+                item_data[
+                    'gerapy.downloadermiddlewares.cookies.CookiesMiddleware'] = 554
+            if spider.get('proxy', {}).get('enable', {}):
+                item_data[
+                    'gerapy.downloadermiddlewares.proxy.ProxyMiddleware'] = 555
+            item_data['gerapy.downloadermiddlewares.pyppeteer.PyppeteerMiddleware'] = 601
+            item_data['scrapy_splash.SplashCookiesMiddleware'] = 723
+            item_data['scrapy_splash.SplashMiddleware'] = 725
+            item_data['scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware'] = 810
+            item['value'] = json.dumps(item_data)
+        if item['key'] == 'SPIDER_MIDDLEWARES':
+            item_data = json.loads(item['value'])
+            item_data['scrapy_splash.SplashDeduplicateArgsMiddleware'] = 100
+            item['value'] = json.dumps(item_data)
+        if item['key'] == 'ITEM_PIPELINES':
+            item_data = json.loads(item['value'])
+            if spider.get('storage', {}).get('mysql', {}).get('enable', {}):
+                item_data[
+                    'gerapy.pipelines.MySQLPipeline'] = 300
+            if spider.get('storage', {}).get('mongodb', {}).get('enable', {}):
+                item_data[
+                    'gerapy.pipelines.MongoDBPipeline'] = 301
+            item['value'] = json.dumps(item_data)
+    return spider
+
 def clients_of_task(task):
     """
     get valid clients of task
@@ -171,6 +411,131 @@ def clients_of_task(task):
         if client:
             yield client
 
+def get_job_id(client, task):
+    """
+    construct job id
+    :param client: client object
+    :param task: task object
+    :return: job id
+    """
+    return '%s-%s-%s' % (client.name, task.project, task.spider)
+
+
+def load_dict(x, transformer=None):
+    """
+    convert to  dict
+    :param x:
+    :return:
+    """
+    if x is None or isinstance(x, dict):
+        return x
+    try:
+        data = json.loads(x)
+        if not transformer:
+            def transformer(x): return x
+        data = {k: transformer(v) for k, v in data.items()}
+        return data
+    except:
+        return {}
+
+
+def str2list(x, transformer=None):
+    """
+    convert to list
+    :param x:
+    :return:
+    """
+    if x is None or isinstance(x, list):
+        return x
+    try:
+        data = json.loads(x)
+        if not transformer:
+            def transformer(x): return x
+        data = list(map(lambda x: transformer(x), data))
+        return data
+    except:
+        return []
+
+
+def str2bool(v):
+    """
+    convert string to bool
+    :param v:
+    :return:
+    """
+    if isinstance(v, bool):
+        return v
+    if v.lower() in ('yes', 'true', 't', 'y', '1'):
+        return True
+    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+        return False
+    return True
+
+
+def str2json(v):
+    """
+    convert str to json data
+    :param v:
+    :return:
+    """
+    try:
+        return json.loads(v)
+    except:
+        return None
+
+
+def str2dict(v):
+    """
+    convert str to dict data
+    :param v:
+    :return:
+    """
+    try:
+        return json.loads(v)
+    except:
+        return {}
+
+
+def str2body(v):
+    """
+    convert str to json data or keep original string
+    :param v:
+    :return:
+    """
+    try:
+        return json.loads(v)
+    except:
+        return v
+
+
+def str2str(v):
+    """
+    convert str to str, process for 'None', 'null', '',
+    :param v:
+    :return:
+    """
+    if v.lower() in ('none', 'null', 'undefined', 'nil', 'false'):
+        return None
+    return str(v)
+
+def log_exception(exception=Exception, logger=None):
+    """
+    used for log exceptions
+    """
+    if not logger:
+        logger = get_logger(__name__)
+
+    def deco(func):
+        def wrapper(*args, **kwargs):
+            try:
+                result = func(*args, **kwargs)
+            except exception as err:
+                logger.exception(err, exc_info=True)
+            else:
+                return result
+        return wrapper
+    return deco
+
 def is_in_curdir(filepath):
     """
     return if a filepath in cur directory
@@ -182,11 +547,12 @@ def is_in_curdir(filepath):
     print('result', result)
     return result
 
-def get_entities(text,result):
+
+def get_entities(text, result):
     entities = []
     curr_entity = ''
     curr_tag = ''
-    for o,pred in zip(text,result):
+    for o, pred in zip(text, result):
         pp = index2label[pred]
         if pp.startswith('B'):
             curr_entity = o
@@ -199,20 +565,16 @@ def get_entities(text,result):
                 print("ERROR: An I-label doesn't followed with a B-label")
         else:
             if curr_tag != '':
-                entities.append((curr_entity,curr_tag))
+                entities.append((curr_entity, curr_tag))
             curr_entity = ''
             curr_tag = ''
     if curr_tag != '':
-        entities.append((curr_entity,curr_tag))
+        entities.append((curr_entity, curr_tag))
     return entities
 
-def get_relations(original,predicted):
-    """
-        Label conversion based on predicted values and document types.
-        :param original: document types(DISEASE or SYMPTOM)
-        :param predicted: predicted values
-        :return: New tag names
-    """
+
+def get_relations(original, predicted):
+    # original represents the type of the title
     if original == "DISEASE":
         if predicted == "DISEASE":
             return "DISEASE_RELATED_DISEASE"
@@ -226,8 +588,6 @@ def get_relations(original,predicted):
             return "DISEASE_CORRESPONDING_DRUG"
         elif predicted == "POSITION":
             return "DISEASE_CORRESPONDING_POSITION"
-        elif predicted == "CAUSE":
-            return "DISEASE_CORRESPONDING_CAUSE"
         else:
             return "UNKNOWN"
     elif original == "SYMPTOM":
@@ -243,17 +603,16 @@ def get_relations(original,predicted):
             return "SYMPTOM_CORRESPONDING_DRUG"
         elif predicted == "POSITION":
             return "SYMPTOM_CORRESPONDING_POSITION"
-        elif predicted == "CAUSE":
-            return "SYMPTOM_CORRESPONDING_CAUSE"
         else:
             return "UNKNOWN"
     else:
         return "UNKNOWN"
 
-def remove_dup(title,result_list):
+
+def remove_dup(title, result_list):
     new_res = []
     for item in result_list:
-        entity,relation = item
+        entity, relation = item
         if entity.lower() == title.lower():
             continue
         else:
@@ -262,11 +621,12 @@ def remove_dup(title,result_list):
 
     return new_res
 
-def replace_relations(prediction_list,title_type):
+
+def replace_relations(prediction_list, title_type):
     new_res = []
     for item in prediction_list:
-        entity,relation = item
-        new_res.append((entity,get_relations(original = title_type, predicted = relation)))
+        entity, relation = item
+        new_res.append((entity, get_relations(original=title_type, predicted=relation)))
     return new_res
 
 
@@ -283,6 +643,7 @@ def convert_into_dict(title, prediction_list, title_type="DISEASE"):
 
     return json_dict
 
-def post_process(title,title_type,results):
-    prediction_list = replace_relations(remove_dup(title,results),title_type)
-    return convert_into_dict(title,prediction_list,title_type)
+
+def post_process(title, title_type, results):
+    prediction_list = replace_relations(remove_dup(title, results), title_type)
+    return convert_into_dict(title, prediction_list, title_type)

@@ -9,10 +9,12 @@ LOG_ENABLED = getenv('LOG_ENABLED', True)
 LOG_TO_CONSOLE = getenv('LOG_TO_CONSOLE', True)
 LOG_TO_FILE = getenv('LOG_TO_FILE', True)
 LOG_LEVEL = getenv('LOG_LEVEL', 'DEBUG' if APP_DEBUG else 'INFO')
-LOG_DIR = getenv('LOG_DIR', 'logs')
+LOG_DIR = getenv('LOG_DIR', 'logs/django_logs')
 LOG_FORMAT = getenv('LOG_FORMAT',
                     '%(levelname)s - %(asctime)s - process: %(process)d - %(filename)s - %(name)s - %(lineno)d - %(module)s - %(message)s')
 LOG_PATH = join(getcwd(), LOG_DIR, time.strftime("%Y%m%d%H%M%S", time.localtime()) + '.log')
+
+READ_LOG_DIR = getenv('READ_LOG_DIR', 'logs')
 
 MODEL_DIR = getenv('MODEL_DIR', 'models')
 RESULT_DIR = getenv('RESULT_DIR', 'crawler_results')

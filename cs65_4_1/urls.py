@@ -13,9 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path
-
+import sys
 from django.contrib import admin
 from django.urls import include, path
 
@@ -23,3 +21,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('polls.urls')),
 ]
+
+if 'runserver' in sys.argv:
+    # start scheduler
+    from polls.scheduler import sm
+    sm.start()

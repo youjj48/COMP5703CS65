@@ -1,6 +1,7 @@
 import configparser
 from os.path import join
 
+
 def config(path, section, option, name='scrapy.cfg', default=None):
     """
     parse scrapy config
