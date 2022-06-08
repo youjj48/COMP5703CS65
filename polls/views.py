@@ -1031,7 +1031,7 @@ def nlp_run(request):
         form = json.loads(request.body)
         title = form['title']
         input_text = form['text']
-        title_type = form['type']
+        title_type = 'DISEASE'
         models = form['model']
 
         model.load_state_dict(torch.load(f'models/{models}', map_location=torch.device('cpu')))
