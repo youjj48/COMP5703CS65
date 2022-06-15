@@ -1104,29 +1104,49 @@ def neo4j_single_find(request):
     :param id: node_id
     :return: json
     """
-    if request.method == 'POST':
+        if request.method == 'POST':
         body = json.loads(request.body)
         form = body['id']
         relation = form["Relation"]
+        label_left = 'left'
+        label_right = 'right'
         if relation in ["HAS_SYMPTON", "HAS_SYMPTOM", "HAS_POSITION", "HAS_COMPLICATION"]:
-            relation = "Disease"
+            label_left = "Disease"
         elif relation == "DIAGNOSE":
-            relation = "Diagnosis"
+            label_left = "Diagnosis"
         elif relation == "TREAT":
-            relation = "Treatment"
+            label_left = "Treatment"
         elif relation == "PREVENT":
-            relation = "Prevention"
+            label_left = "Prevention"
         elif relation == "CAUSE":
-            relation = "Cause"
+            label_left = "Cause"
+
+        if relation in ["CAUSE", "PREVENT", "TREAT", "DIAGNOSE","HAS_COMPLICATION"]:
+            label_right = "Disease"
+        elif relation in ["HAS_SYMPTON"]:
+            label_right = "Symptom"
+        elif relation in ["HAS_POSITION"]:
+            label_right = "Position"
         name = form["Node content"]
         app = App(uri, user, password)
 
-        output = {}
+        output_left = {}
+        output_right = {}
 
-        output["output"] = app.find_node(relation, name)
-        output["name"] = name
+        output_left["output"] = app.find_node(label_left, name)
+        output_left["name"] = name
 
-        return JsonResponse(output)
+        output_right["output"] = app.find_node(label_right, name)
+        output_right["name"] = name
+
+        print(len(output_left['output']['find']))
+
+        if len(output_left['output']['find']) == 0:
+            output_final = output_right
+        else:
+            output_final = output_left
+
+        return JsonResponse(output_final)
     
 @log_exception()
 @api_view(['GET'])
