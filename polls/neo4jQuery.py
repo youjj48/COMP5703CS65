@@ -181,3 +181,30 @@ class App:
             node_value = (return_dict['count(*)'])
             return_list.append([node_label, node_value])
         return return_list
+    
+    @staticmethod
+    def _find_available_node(tx, node_label):
+        query = (
+                "MATCH (n:" + node_label + ") RETURN n.name"
+        )
+        result = tx.run(query)
+        return_list = []
+        for row in result:
+            return_dict = row.data()
+            return_list.append(return_dict['n.name'])
+            # print(return_dict)
+        return return_list
+
+    def find_available_node(self, node_label):
+        with self.driver.session() as session:
+            result = session.read_transaction(self._find_available_node, node_label)
+            list = {}
+            all_list = []
+
+            for node in result:
+                list["label"] = format(node_label)
+                list["name"] = format(node)
+                l_list = list.copy()
+                all_list.append(l_list)
+
+            return all_list

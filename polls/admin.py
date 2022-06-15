@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Client, Project, Monitor
+from .models import Client, Project
 
 
 class ClientAdmin(admin.ModelAdmin):
@@ -18,6 +18,5 @@ class MonitorAdmin(admin.ModelAdmin):
 
 admin.site.register(Client, ClientAdmin)
 admin.site.register(Project, ProjectAdmin)
-admin.site.register(Monitor, MonitorAdmin)
 
 

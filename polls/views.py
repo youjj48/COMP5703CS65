@@ -30,7 +30,7 @@ from cs65_4_1.settings import TIME_ZONE
 from .build import build_project, find_egg
 from .utils import log_exception, scrapyd_url, IGNORES, get_scrapyd, bytes2str, get_tree, log_url, is_in_curdir, \
     clients_of_task, get_job_id, process_html, post_process
-from .models import Client, Deploy, Project, Monitor, Task
+from .models import Client, Deploy, Project, Task
 from settings import PROJECTS_FOLDER, MODEL_DIR, RESULT_DIR, READ_LOG_DIR
 from .response import JsonResponse
 from nltk.tokenize import sent_tokenize
@@ -754,65 +754,6 @@ def project_file_read(request):
         with open(path, 'rb') as f:
             return HttpResponse(f.read().decode('utf-8'))
 
-
-@log_exception()
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def monitor_create(request):
-    """
-    create a monitor
-    :param request: request object
-    :return: json of create
-    """
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        data = data['form']
-        data['configuration'] = json.dumps(
-            data['configuration'], ensure_ascii=False)
-        monitor = Monitor.objects.create(**data)
-        return JsonResponse(model_to_dict(monitor))
-
-
-@log_exception()
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def monitor_db_list(request):
-    """
-    get monitor db list
-    :param request: request object
-    :return: json of db list
-    """
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        url = data['url']
-        type = data['type']
-        if type == 'MongoDB':
-            client = pymongo.MongoClient(url)
-            dbs = client.list_database_names()
-            return JsonResponse(dbs)
-
-
-@log_exception()
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def monitor_collection_list(request):
-    """
-    get monitor collection list
-    :param request: request object
-    :return: json of collection list
-    """
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        url = data['url']
-        db = data['db']
-        type = data['type']
-        if type == 'MongoDB':
-            client = pymongo.MongoClient(url)
-            db = client[db]
-            collections = db.collection_names()
-            return JsonResponse(collections)
-
-
 @log_exception()
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -1113,7 +1054,26 @@ def neo4j_delete(request):
 
         return JsonResponse(output)
 
+@log_exception()
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def neo4j_available_node(request):
+    """
+    get param of model
+    :param request: request object
+    :return: output of find node
+    """
+    if request.method == 'POST':
+        form = json.loads(request.body)
 
+        label_name = form['id']
+        app = App(uri, user, password)
+
+        output = app.find_available_node(label_name)
+
+        return JsonResponse(output)
+    
+    
 @log_exception()
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -1134,7 +1094,40 @@ def neo4j_find(request):
 
         return JsonResponse(output)
 
+@log_exception()
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def neo4j_single_find(request):
+    """
+    find a node
+    :param request: request object
+    :param id: node_id
+    :return: json
+    """
+    if request.method == 'POST':
+        body = json.loads(request.body)
+        form = body['id']
+        relation = form["Relation"]
+        if relation in ["HAS_SYMPTON", "HAS_SYMPTOM", "HAS_POSITION", "HAS_COMPLICATION"]:
+            relation = "Disease"
+        elif relation == "DIAGNOSE":
+            relation = "Diagnosis"
+        elif relation == "TREAT":
+            relation = "Treatment"
+        elif relation == "PREVENT":
+            relation = "Prevention"
+        elif relation == "CAUSE":
+            relation = "Cause"
+        name = form["Node content"]
+        app = App(uri, user, password)
 
+        output = {}
+
+        output["output"] = app.find_node(relation, name)
+        output["name"] = name
+
+        return JsonResponse(output)
+    
 @log_exception()
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -1184,7 +1177,7 @@ def neo4j_chart_data(request):
 
 @log_exception()
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+#@permission_classes([IsAuthenticated])
 def neo4j_graph(request):
     """
     render index page

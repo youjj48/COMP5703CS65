@@ -62,17 +62,7 @@ class Deploy(Model):
     class Meta:
         unique_together = ('client', 'project')
 
-class Monitor(Model):
-    """
-    Monitor configuration
-    """
-    name = CharField(max_length=255, default=None)
-    description = CharField(max_length=255, null=True, blank=True)
-    type = CharField(max_length=255, null=True, blank=True)
-    configuration = TextField(null=True, blank=True)
-    project = ForeignKey(Project, blank=True, null=True, on_delete=DO_NOTHING)
-    created_at = DateTimeField(auto_now_add=True, blank=True, null=True)
-    updated_at = DateTimeField(auto_now=True, blank=True, null=True)
+
 
 
 class Task(Model):
